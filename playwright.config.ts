@@ -73,12 +73,25 @@ const config: PlaywrightTestConfig = {
         ...devices["iPhone 12 Pro"],
       },
     },
-    {
-      name: "iPhone 12 Pro Max",
-      use: {
-        ...devices["iPhone 12 Pro Max"],
-      },
-    },
+    // {
+    //   name: "iPhone 12 Pro Max",
+    //   use: {
+    //     ...devices["iPhone 12 Pro Max"],
+    //   },
+    // },
+    // {
+    //   name: "Pixel 5",
+    //   use: {
+    //     ...devices["Pixel 5"],
+    //   },
+    // },
+    // {
+    //   name: "Samsung Galaxy Note 11",
+    //   use: {
+    //     ...devices["Galaxy Note II"],
+    //     defaultBrowserType: "chromium",
+    //   },
+    // },
 
     /* Test against branded browsers. */
     // {

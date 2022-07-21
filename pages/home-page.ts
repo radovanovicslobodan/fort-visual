@@ -13,6 +13,9 @@ export class HomePage {
       "data-testid=btnTestOverviewNavigation"
     );
   }
+  async goToLogin() {
+    await this.loginButton.click();
+  }
   async goToExplanationPage() {
     await this.getStartedButton.click();
     await waitTillHTMLRendered(this.page);

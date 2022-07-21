@@ -1,11 +1,12 @@
 import { Locator, Page } from "@playwright/test";
-import { faker } from "@faker-js/faker";
+import { waitTillHTMLRendered } from "../utils/waiters";
 
 export class RegisterPage {
   readonly page: Page;
   readonly emailField: Locator;
   readonly passwordField: Locator;
   readonly confirmPassword: Locator;
+  readonly submitButton: Locator;
 
   constructor(page) {
     this.page = page;
@@ -14,11 +15,28 @@ export class RegisterPage {
     this.confirmPassword = page.locator(
       '[placeholder="Confirm your Password"]'
     );
+    this.submitButton = page.locator("data-testid=submitButton");
   }
-  async enterCredentials() {
-    let password = faker.internet.password();
-    await this.emailField.fill(faker.internet.email());
+  async enterValidCredentials(email) {
+    let password = "Password1!";
+    // await this.emailField.click({ clickCount: 3 });
+    // await this.emailField.press("Backspace");
+    await this.emailField.fill(email);
+    // await this.passwordField.click({ clickCount: 3 });
+    // await this.passwordField.press("Backspace");
     await this.passwordField.fill(password);
     await this.confirmPassword.fill(password);
+  }
+  async enterInvalidCredentials() {
+    let wrongEmail = "test.test.me";
+    let wrongPassword = "wrong_pass";
+    let wrongConfirmPassword = "wrong_confirm_pass";
+    await this.emailField.fill(wrongEmail);
+    await this.passwordField.fill(wrongPassword);
+    await this.confirmPassword.fill(wrongConfirmPassword);
+  }
+  async clickSubmit() {
+    this.submitButton.click();
+    await waitTillHTMLRendered(this.page);
   }
 }

@@ -29,7 +29,7 @@ export class PersonalInfoPage {
     await this.lastNameField.fill(faker.name.lastName());
     await this.selectRelationshipDropdown.click();
     await this.firstRelationship.click();
-    await this.birthdateField.fill("01/01/1990");
+    await this.birthdateField.fill("01/01/1989");
     await this.nextButton.click();
     await waitTillHTMLRendered(this.page);
   }

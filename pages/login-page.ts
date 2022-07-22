@@ -10,7 +10,7 @@ export class LoginPage {
     this.page = page;
     this.emailField = page.locator("#username");
     this.passwordField = page.locator("#password");
-    this.loginButton = page.locator("#kc_login");
+    this.loginButton = page.locator("#kc-login");
   }
   async login(email, password) {
     await this.emailField.fill(email);

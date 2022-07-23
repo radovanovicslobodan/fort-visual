@@ -1,8 +1,25 @@
 import { faker } from "@faker-js/faker";
 import { expect, test } from "@playwright/test";
+import { formatDate } from "../utils/format-date";
 
 test("fort onboarding flow", async ({ page }) => {
-  let email = faker.internet.email("peter", "parker");
+  let email = faker.internet.email().toLocaleLowerCase();
+  let caregiverFirstName = faker.name.firstName();
+  let caregiverLastName = faker.name.lastName();
+  let childFirstName = faker.name.firstName();
+  let caregiverBirthdate = formatDate(
+    new Date(
+      faker.date.birthdate({
+        min: 19,
+        max: 90,
+        mode: "age",
+      })
+    )
+  );
+  let childBirthdate = formatDate(
+    new Date(faker.date.birthdate({ min: 5, max: 19, mode: "age" }))
+  );
+
   await page.goto("/");
   // Click [data-testid="btnTestOverviewNavigation"]
   await page.locator('[data-testid="btnTestOverviewNavigation"]').click();
@@ -71,11 +88,15 @@ test("fort onboarding flow", async ({ page }) => {
   // Click [placeholder="Enter your First Name"]
   await page.locator('[placeholder="Enter your First Name"]').click();
   // Fill [placeholder="Enter your First Name"]
-  await page.locator('[placeholder="Enter your First Name"]').fill("Peter");
+  await page
+    .locator('[placeholder="Enter your First Name"]')
+    .fill(caregiverFirstName);
   // Press Tab
   await page.locator('[placeholder="Enter your First Name"]').press("Tab");
   // Fill [placeholder="Enter your Last Name"]
-  await page.locator('[placeholder="Enter your Last Name"]').fill("Parker");
+  await page
+    .locator('[placeholder="Enter your Last Name"]')
+    .fill(caregiverLastName);
   // Click [placeholder="Select Relationship with Child"]
   await page.locator('[placeholder="Select Relationship with Child"]').click();
   // Click text=Father
@@ -85,7 +106,7 @@ test("fort onboarding flow", async ({ page }) => {
     .locator('[placeholder="Select Relationship with Child"]')
     .fill("Father");
   // Fill [placeholder="mm\/dd\/yyyy"]
-  await page.locator('[placeholder="mm\\/dd\\/yyyy"]').fill("01/01/1993");
+  await page.locator('[placeholder="mm\\/dd\\/yyyy"]').fill(caregiverBirthdate);
   // Click [data-testid="nextCaregiverBtn"]
   await page.locator('[data-testid="nextCaregiverBtn"]').click();
   await page.waitForURL("personal-child-info/child-info");
@@ -97,7 +118,7 @@ test("fort onboarding flow", async ({ page }) => {
   // Fill [placeholder="Enter your Child\'s First Name"]
   await page
     .locator('[placeholder="Enter your Child\\\'s First Name"]')
-    .fill("Patricia");
+    .fill(childFirstName);
   // Click [placeholder="Enter your Child\'s Last Name"]
   await page.locator('[placeholder="Enter your Child\\\'s Last Name"]').click();
   // Fill [placeholder="Enter your Child\'s Last Name"]
@@ -107,7 +128,7 @@ test("fort onboarding flow", async ({ page }) => {
   // Click [placeholder="mm\/dd\/yyyy"]
   await page.locator('[placeholder="mm\\/dd\\/yyyy"]').click();
   // Fill [placeholder="mm\/dd\/yyyy"]
-  await page.locator('[placeholder="mm\\/dd\\/yyyy"]').fill("01/01/2017");
+  await page.locator('[placeholder="mm\\/dd\\/yyyy"]').fill(childBirthdate);
   // Click [placeholder="Select Child\'s Sex Assigned at Birth"]
   await page
     .locator('[placeholder="Select Child\\\'s Sex Assigned at Birth"]')

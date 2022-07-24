@@ -17,13 +17,8 @@ export class RegisterPage {
     );
     this.submitButton = page.locator("data-testid=submitButton");
   }
-  async enterValidCredentials(email) {
-    let password = "Password1!";
-    // await this.emailField.click({ clickCount: 3 });
-    // await this.emailField.press("Backspace");
+  async enterValidCredentials(email: string, password: string) {
     await this.emailField.fill(email);
-    // await this.passwordField.click({ clickCount: 3 });
-    // await this.passwordField.press("Backspace");
     await this.passwordField.fill(password);
     await this.confirmPassword.fill(password);
   }
@@ -37,6 +32,6 @@ export class RegisterPage {
   }
   async clickSubmit() {
     this.submitButton.click();
-    await waitTillHTMLRendered(this.page);
+    await this.page.waitForNavigation();
   }
 }

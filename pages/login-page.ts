@@ -1,4 +1,5 @@
 import { Locator, Page } from "@playwright/test";
+import { waitTillHTMLRendered } from "../utils/waiters";
 
 export class LoginPage {
   readonly page: Page;
@@ -16,5 +17,6 @@ export class LoginPage {
     await this.emailField.fill(email);
     await this.passwordField.fill(password);
     await this.loginButton.click();
+    await waitTillHTMLRendered(this.page);
   }
 }

@@ -1,5 +1,4 @@
 import { Locator, Page } from "@playwright/test";
-import { waitTillHTMLRendered } from "../utils/waiters";
 
 export class ExplanationPage {
   readonly page: Page;
@@ -11,6 +10,6 @@ export class ExplanationPage {
   }
   async goToResidencePage() {
     await this.continueButton.click();
-    await waitTillHTMLRendered(this.page);
+    await this.page.waitForNavigation();
   }
 }

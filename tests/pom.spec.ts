@@ -3,15 +3,15 @@ import { HomePage } from "../pages/home-page";
 import { ExplanationPage } from "../pages/explanation-page";
 import { ResidencePage } from "../pages/residence-page";
 import { ConcernsPage } from "../pages/concerns-page";
-import { RegisterPage } from "../pages/register-page";
+import { RegisterPage } from "../pages/registration-page";
 import { ContactWidget } from "../pages/contact-widget";
 import { faker } from "@faker-js/faker";
 import { LoginPage } from "../pages/login-page";
 import { PersonalInfoPage } from "../pages/personal-info-page";
 
 test.describe("home page functionality", async () => {
-  let validEmail: String;
-  let validPassword: String;
+  let validEmail: string;
+  let validPassword: string;
   test.beforeAll(async () => {
     validEmail = faker.internet.email("bruce", "willis");
     validPassword = "Password1!";
@@ -35,7 +35,7 @@ test.describe("home page functionality", async () => {
     await expect(page).toHaveScreenshot({ fullPage: true });
     await explanationPage.goToResidencePage();
     await expect(page).toHaveScreenshot({ fullPage: true });
-    await residencePage.selectFirstState();
+    await residencePage.selectState("New Jersey");
     await residencePage.goToConcernsPage();
     await expect(page).toHaveScreenshot({ fullPage: true });
     await concernsPage.selectFirstConcern();
@@ -49,12 +49,12 @@ test.describe("home page functionality", async () => {
     await expect(page).toHaveScreenshot({ fullPage: true });
     await registerPage.enterInvalidCredentials();
     await expect(page).toHaveScreenshot({ fullPage: true });
-    await registerPage.enterValidCredentials(validEmail);
+    await registerPage.enterValidCredentials(validEmail, validPassword);
     await registerPage.clickSubmit();
     await expect(page).toHaveScreenshot({ fullPage: true });
     await loginPage.login(validEmail, validPassword);
     await expect(page).toHaveScreenshot({ fullPage: true });
-    await personalInfoPage.enterCaregiverInfo();
+    await personalInfoPage.enterCaregiverInfo("asd", "acv", "xcv");
     await expect(page).toHaveScreenshot({ fullPage: true });
     await page.waitForTimeout(1000);
   });

@@ -124,7 +124,7 @@ test("fort onboarding flow", async ({ page }) => {
   // Fill [placeholder="Enter your Child\'s Last Name"]
   await page
     .locator('[placeholder="Enter your Child\\\'s Last Name"]')
-    .fill("Parker");
+    .fill(caregiverLastName);
   // Click [placeholder="mm\/dd\/yyyy"]
   await page.locator('[placeholder="mm\\/dd\\/yyyy"]').click();
   // Fill [placeholder="mm\/dd\/yyyy"]

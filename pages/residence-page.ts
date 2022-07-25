@@ -20,7 +20,6 @@ export class ResidencePage {
   async selectState(state: String) {
     await this.openStateDropdown.click();
     await this.page.locator(`text=${state}`).click();
-    // await waitTillHTMLRendered(this.page);
   }
 
   async goToConcernsPage() {

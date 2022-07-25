@@ -19,11 +19,9 @@ export class ConcernsPage {
   }
   async selectFirstConcern() {
     await this.firstConcern.click();
-    // await waitTillHTMLRendered(this.page);
   }
   async selectLastConcern() {
     await this.lastConcern.click();
-    // await waitTillHTMLRendered(this.page);
   }
   async continue() {
     await this.continueButton.click();

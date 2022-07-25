@@ -6,6 +6,7 @@ export class ChildInfoPage {
   readonly childFirstNameField: Locator;
   readonly childLastNameField: Locator;
   readonly childBirthdateField: Locator;
+  readonly childEmail: Locator;
   readonly openSexAtBirthDropdown: Locator;
   readonly firstSexAssigned: Locator;
   readonly openPreferredPronounDropdown: Locator;
@@ -21,6 +22,9 @@ export class ChildInfoPage {
       '[placeholder="Enter your Child\\\'s Last Name"]'
     );
     this.childBirthdateField = page.locator('[placeholder="mm\\/dd\\/yyyy"]');
+    this.childEmail = page.locator(
+      '[placeholder="Child\\\'s Email for Teletherapy Links"]'
+    );
     this.openSexAtBirthDropdown = page.locator(
       '[placeholder="Select Child\\\'s Sex Assigned at Birth"]'
     );
@@ -34,15 +38,19 @@ export class ChildInfoPage {
   async enterChildInfo(
     childFirstName: string,
     childLastName: string,
-    childBirthdate: string
+    childBirthdate: string,
+    childEmail: string
   ) {
     await this.childFirstNameField.fill(childFirstName);
     await this.childLastNameField.fill(childLastName);
     await this.childBirthdateField.fill(childBirthdate);
+    await this.childEmail.fill(childEmail);
     await this.openSexAtBirthDropdown.click();
     await this.firstSexAssigned.click();
     await this.openPreferredPronounDropdown.click();
     await this.firstPronoun.click();
+  }
+  async clickSubmit() {
     await this.nextButton.click();
     await waitTillHTMLRendered(this.page);
   }

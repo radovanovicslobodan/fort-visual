@@ -15,6 +15,7 @@ import { waitTillHTMLRendered } from "../utils/waiters";
 let page;
 let email;
 let password;
+let childEmail;
 let caregiverFirstName;
 let caregiverLastName;
 let childFirstName;
@@ -33,8 +34,9 @@ let browseTherapistPage;
 test.beforeAll(async ({ browser }) => {
   const context = await browser.newContext();
   page = await context.newPage();
-  email = faker.internet.email().toLocaleLowerCase();
+  email = faker.internet.email().toLowerCase();
   password = "Password1!";
+  childEmail = faker.internet.email().toLowerCase();
   caregiverFirstName = faker.name.firstName();
   caregiverLastName = faker.name.lastName();
   childFirstName = faker.name.firstName();
@@ -63,63 +65,80 @@ test.beforeAll(async ({ browser }) => {
 test("Onboarding", async () => {
   await page.goto("/overview");
   await waitTillHTMLRendered(page);
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Explanation page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 1. Explanation page
 
   await contactWidget.clickContactWidget();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Contact widget expanded
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 2. Contact widget expanded
   await contactWidget.clickContactWidget();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Contact widget collapsed
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 3. Contact widget collapsed
 
   await explanationPage.goToResidencePage();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Residence page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 4. Residence page
 
   await residencePage.selectState("New Jersey");
   await waitTillHTMLRendered(page);
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Selected state
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 5. Selected state
 
   await residencePage.goToConcernsPage();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // L1 concerns page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 6. L1 concerns page
 
   await concernsPage.selectFirstConcern();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Selected first L1 concern
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 7. Selected first L1 concern
 
   await concernsPage.continue();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // L2 concerns page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 8. L2 concerns page
 
   await concernsPage.selectFirstConcern();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Selected first L2 concern
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 9. Selected first L2 concern
 
   await concernsPage.continue();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // L3 concerns page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 10. L3 concerns page
 
   await concernsPage.selectLastConcern();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Selected first L3 concern
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 11.  Selected first L3 concern
 
   await concernsPage.next();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Registration page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 12. Registration page
+
+  await registrationPage.enterInvalidCredentials();
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 13. Registration page errors
 
   await registrationPage.enterValidCredentials(email, password);
 
   await registrationPage.clickSubmit();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Login page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 14. Login page
 
   await loginPage.login(email, password);
-  await expect(page).toHaveScreenshot({ fullPage: true }); //Personal info page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 15. Personal info page
+
+  await personalInfoPage.enterCaregiverInfo("", "", "00/00/0000");
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 16. Personal info page errors
 
   await personalInfoPage.enterCaregiverInfo(
     caregiverFirstName,
     caregiverLastName,
     caregiverBirthdate
   );
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Child info page
+  await personalInfoPage.clickSubmit();
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 17. Child info page
 
   await childInfoPage.enterChildInfo(
     childFirstName,
     caregiverLastName,
-    childBirthdate
+    "00/00/0000",
+    "wrong.email"
   );
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Browse therapist page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 18. Child info page errors
+
+  await childInfoPage.enterChildInfo(
+    childFirstName,
+    caregiverLastName,
+    childBirthdate,
+    childEmail
+  );
+  await childInfoPage.clickSubmit();
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 19. Browse therapist page
 
   await browseTherapistPage.goToFirstTherapist();
-  await expect(page).toHaveScreenshot({ fullPage: true }); // Single therapist page
+  await expect(page).toHaveScreenshot({ fullPage: true }); // 20. Single therapist page
 });

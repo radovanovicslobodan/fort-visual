@@ -31,6 +31,8 @@ export class PersonalInfoPage {
     await this.openRelationshipDropdown.click();
     await this.firstRelationship.click();
     await this.birthdateField.fill(caregiverBirthdate);
+  }
+  async clickSubmit() {
     await this.nextButton.click();
     await waitTillHTMLRendered(this.page);
   }

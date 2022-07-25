@@ -17,4 +17,4 @@ Automated testing framework for visual testing using [Playwright](https://playwr
 
 ## WARNING
 
-Every test run will register with a randomly created user, so be careful
+Every test run will register with a randomly created users, so be careful

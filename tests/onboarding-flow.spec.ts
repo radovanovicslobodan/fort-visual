@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-import test, { expect, Page } from "@playwright/test";
+import test, { expect } from "@playwright/test";
 import { BrowseTherapistPage } from "../pages/browse-therapist-page";
 import { ChildInfoPage } from "../pages/child-info-page";
 import { ConcernsPage } from "../pages/concerns-page";
